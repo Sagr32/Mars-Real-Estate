@@ -53,7 +53,7 @@ class OverviewFragment : Fragment() {
 
         // Giving the binding access to the OverviewViewModel
         binding.viewModel = viewModel
-
+        binding.gridPhotos.adapter = PhotoGridAdapter()
         setHasOptionsMenu(true)
         return binding.root
     }
