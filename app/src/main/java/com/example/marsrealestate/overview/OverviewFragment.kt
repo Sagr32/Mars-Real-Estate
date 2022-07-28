@@ -26,6 +26,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.marsrealestate.R
 import com.example.marsrealestate.databinding.FragmentOverviewBinding
+import com.example.marsrealestate.network.MarsApiFilter
 
 
 /**
@@ -69,6 +70,16 @@ class OverviewFragment : Fragment() {
         return binding.root
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        viewModel.updateFilter(
+            when (item.itemId) {
+                R.id.show_rent_menu -> MarsApiFilter.SHOW_RENT
+                R.id.show_buy_menu -> MarsApiFilter.SHOW_BUY
+                else -> MarsApiFilter.SHOW_ALL
+            }
+        )
+        return true
+    }
 
     /**
      * Inflates the overflow menu that contains filtering options.
