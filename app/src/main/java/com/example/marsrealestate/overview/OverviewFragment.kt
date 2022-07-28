@@ -20,7 +20,9 @@ package com.example.marsrealestate.overview
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.marsrealestate.R
 import com.example.marsrealestate.databinding.FragmentOverviewBinding
@@ -53,10 +55,20 @@ class OverviewFragment : Fragment() {
 
         // Giving the binding access to the OverviewViewModel
         binding.viewModel = viewModel
-        binding.gridPhotos.adapter = PhotoGridAdapter()
+        binding.gridPhotos.adapter = PhotoGridAdapter(onClickListener {
+            viewModel.setPropertyDetails(it)
+        })
+
+        viewModel.navigatoToDetails.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                this.findNavController().navigate(OverviewFragmentDirections.actionShowDetail(it))
+                viewModel.onNavigateComplete()
+            }
+        })
         setHasOptionsMenu(true)
         return binding.root
     }
+
 
     /**
      * Inflates the overflow menu that contains filtering options.

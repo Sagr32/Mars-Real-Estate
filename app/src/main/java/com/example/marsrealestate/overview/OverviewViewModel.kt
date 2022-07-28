@@ -54,6 +54,13 @@ class OverviewViewModel : ViewModel() {
     val properties: LiveData<List<MarsProperty>>
         get() = _properties
 
+    private val _navigateToDetails = MutableLiveData<MarsProperty>()
+
+    val navigatoToDetails: LiveData<MarsProperty>
+        get() = _navigateToDetails
+
+
+
     private val viewModelJob = Job()
     private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
@@ -86,5 +93,17 @@ class OverviewViewModel : ViewModel() {
 
         }
 
+    }
+
+    fun onNavigateComplete(){
+        _navigateToDetails.value = null
+    }
+    fun setPropertyDetails(marsProperty: MarsProperty) {
+        _navigateToDetails.value = marsProperty
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
     }
 }
